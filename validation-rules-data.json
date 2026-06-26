@@ -1,0 +1,932 @@
+[
+  {
+    "documentType": "AFFIDAVIT",
+    "ruleId": "AFF-001",
+    "field": "Completeness",
+    "instruction": "Verify the affidavit is completed in its entirety. Check that all required fields are populated and no required sections are blank.",
+    "comparisonSource": "Affidavit document",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Affidavit is incomplete or missing required fields."
+  },
+  {
+    "documentType": "AFFIDAVIT",
+    "ruleId": "AFF-002",
+    "field": "Owner Signatures",
+    "instruction": "Verify that all required owner(s) signatures have been provided.",
+    "comparisonSource": "Affidavit document; application owner list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Required owner signature(s) are missing."
+  },
+  {
+    "documentType": "FINANCIAL_STATEMENT",
+    "ruleId": "PNW-001",
+    "field": "PNW Completeness",
+    "instruction": "Verify the Personal Net Worth statement is completed in its entirety, including assets, liabilities, totals, and required signatures if applicable.",
+    "comparisonSource": "PNW statement",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Personal Net Worth statement is incomplete."
+  },
+  {
+    "documentType": "FINANCIAL_STATEMENT",
+    "ruleId": "PNW-002",
+    "field": "Net Worth Threshold",
+    "instruction": "Calculate or extract the vendor's personal net worth and verify that it does not exceed the established threshold of $2.047 million.",
+    "comparisonSource": "PNW statement",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Personal net worth exceeds the $2.047 million threshold or cannot be verified."
+  },
+  {
+    "documentType": "KEY_PERSON_RESUME",
+    "ruleId": "RES-001",
+    "field": "Required Resumes",
+    "instruction": "Verify resumes are provided for all owners, officers, and key personnel listed in Sections 3.A through 3.E of the application.",
+    "comparisonSource": "Application Sections 3.A-3.E; resume files",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Resume(s) are missing for one or more required owners, officers, or key personnel."
+  },
+  {
+    "documentType": "KEY_PERSON_RESUME",
+    "ruleId": "RES-002",
+    "field": "Resume Format",
+    "instruction": "Verify each submission is in a traditional resume format and includes work history, roles, dates, and relevant experience.",
+    "comparisonSource": "Resume file",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Resume is not in a traditional resume format or lacks adequate detail."
+  },
+  {
+    "documentType": "KEY_PERSON_RESUME",
+    "ruleId": "RES-003",
+    "field": "Firm Affiliation",
+    "instruction": "Verify each resume demonstrates the individual's affiliation with the applicant firm.",
+    "comparisonSource": "Resume file; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Resume does not clearly demonstrate affiliation with the applicant firm."
+  },
+  {
+    "documentType": "BUSINESS_TAX_RETURNS",
+    "ruleId": "BTR-001",
+    "field": "Tax Form Type",
+    "instruction": "Identify whether the submitted business tax return is Form 1120-S or Form 1065.",
+    "comparisonSource": "Business tax return",
+    "expectedOutput": "Extract Value",
+    "severity": "Medium",
+    "failureMessage": "Business tax return type could not be identified as Form 1120-S or Form 1065."
+  },
+  {
+    "documentType": "BUSINESS_TAX_RETURNS",
+    "ruleId": "BTR-002",
+    "field": "Business Name",
+    "instruction": "Verify the business name on the tax return matches the applicant firm name.",
+    "comparisonSource": "Business tax return; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Business name on tax return does not match the applicant firm."
+  },
+  {
+    "documentType": "BUSINESS_TAX_RETURNS",
+    "ruleId": "BTR-003",
+    "field": "EIN",
+    "instruction": "Confirm the EIN listed in the top right corner beneath the filing year matches the application and EIN documentation.",
+    "comparisonSource": "Business tax return; application; EIN documentation",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "EIN on business tax return does not match application or EIN documentation."
+  },
+  {
+    "documentType": "BUSINESS_TAX_RETURNS",
+    "ruleId": "BTR-004",
+    "field": "Annual Revenue",
+    "instruction": "Extract and verify the business's annual revenue from the Income section, Line 1a.",
+    "comparisonSource": "Business tax return Line 1a",
+    "expectedOutput": "Extract Value",
+    "severity": "Medium",
+    "failureMessage": "Annual revenue from Line 1a could not be extracted or verified."
+  },
+  {
+    "documentType": "BUSINESS_TAX_RETURNS",
+    "ruleId": "BTR-005",
+    "field": "Schedule K-1 Inclusion",
+    "instruction": "Review any included Schedule K-1 forms to identify the majority owner(s) of the company.",
+    "comparisonSource": "Business tax return; Schedule K-1",
+    "expectedOutput": "Extract Value",
+    "severity": "High",
+    "failureMessage": "Schedule K-1 forms are missing or do not identify ownership clearly."
+  },
+  {
+    "documentType": "SCHEDULE_K1",
+    "ruleId": "K1-001",
+    "field": "Business Name",
+    "instruction": "Verify each Schedule K-1 reflects the correct business name.",
+    "comparisonSource": "Schedule K-1; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Schedule K-1 business name does not match the applicant firm."
+  },
+  {
+    "documentType": "SCHEDULE_K1",
+    "ruleId": "K1-002",
+    "field": "Owner Identification",
+    "instruction": "Verify each Schedule K-1 identifies the appropriate owner(s).",
+    "comparisonSource": "Schedule K-1; application owner list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Schedule K-1 does not identify the appropriate owner(s)."
+  },
+  {
+    "documentType": "SCHEDULE_K1",
+    "ruleId": "K1-003",
+    "field": "Ownership Percentage",
+    "instruction": "Verify ownership percentages on Schedule K-1 align with ownership percentages stated in the application.",
+    "comparisonSource": "Schedule K-1; application",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Schedule K-1 ownership percentages do not match the application."
+  },
+  {
+    "documentType": "FORM_1125E",
+    "ruleId": "1125E-001",
+    "field": "Majority Owner Listed",
+    "instruction": "If Form 1125-E is included, verify the majority owner is listed under Compensation of Officers.",
+    "comparisonSource": "Form 1125-E; application ownership list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Majority owner is not listed under Compensation of Officers."
+  },
+  {
+    "documentType": "FORM_1125E",
+    "ruleId": "1125E-002",
+    "field": "Officer Compensation",
+    "instruction": "Confirm reported compensation is appropriate and consistent with ownership structure. If multiple owners are listed, ensure the majority owner receives compensation greater than any other individual identified on the form.",
+    "comparisonSource": "Form 1125-E; application ownership list",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "Medium",
+    "failureMessage": "Majority owner compensation is not greater than other listed individuals or is inconsistent with ownership structure."
+  },
+  {
+    "documentType": "BIRTH_CERTIFICATE",
+    "ruleId": "BC-001",
+    "field": "Identity and Eligibility",
+    "instruction": "Verify the majority owner(s)' birth certificate confirms identity and supports minority eligibility and citizenship requirements where applicable.",
+    "comparisonSource": "Birth certificate; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Birth certificate does not verify identity, citizenship, or claimed eligibility."
+  },
+  {
+    "documentType": "CURRENT_PASSPORT",
+    "ruleId": "PASS-001",
+    "field": "Identity and Citizenship",
+    "instruction": "Verify the U.S. passport confirms identity and citizenship or residency requirements where applicable.",
+    "comparisonSource": "Passport; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Passport does not verify identity or citizenship."
+  },
+  {
+    "documentType": "CURRENT_PASSPORT",
+    "ruleId": "PASS-002",
+    "field": "Expiration Date",
+    "instruction": "Verify the U.S. passport is current and has not expired.",
+    "comparisonSource": "Passport",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "High",
+    "failureMessage": "Passport is expired or expiration date cannot be verified."
+  },
+  {
+    "documentType": "PASSPORT",
+    "ruleId": "PASS-003",
+    "field": "Identity and Citizenship",
+    "instruction": "Verify the passport confirms identity and citizenship or residency requirements where applicable.",
+    "comparisonSource": "Passport; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Passport does not verify identity or citizenship."
+  },
+  {
+    "documentType": "PASSPORT",
+    "ruleId": "PASS-004",
+    "field": "Expiration Date",
+    "instruction": "Verify the passport is current and has not expired.",
+    "comparisonSource": "Passport",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "High",
+    "failureMessage": "Passport is expired or expiration date cannot be verified."
+  },
+  {
+    "documentType": "CERTIFICATE_OF_NATURALIZATION",
+    "ruleId": "NAT-001",
+    "field": "Identity and Citizenship",
+    "instruction": "Verify the Naturalization Certificate confirms the majority owner(s)' identity and citizenship status.",
+    "comparisonSource": "Naturalization Certificate; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Naturalization Certificate does not verify identity or citizenship."
+  },
+  {
+    "documentType": "PERMANENT_RESIDENT_CARD",
+    "ruleId": "PRC-001",
+    "field": "Identity and Residency",
+    "instruction": "Verify the Permanent Resident Card confirms the majority owner(s)' identity and residency status.",
+    "comparisonSource": "Permanent Resident Card; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Permanent Resident Card does not verify identity or residency status."
+  },
+  {
+    "documentType": "PERMANENT_RESIDENT_CARD",
+    "ruleId": "PRC-002",
+    "field": "Expiration Date",
+    "instruction": "Verify the Permanent Resident Card is current and has not expired.",
+    "comparisonSource": "Permanent Resident Card",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "High",
+    "failureMessage": "Permanent Resident Card is expired or expiration date cannot be verified."
+  },
+  {
+    "documentType": "PERSONAL_TAX_RETURN_1040",
+    "ruleId": "PTR-001",
+    "field": "Owner Match",
+    "instruction": "Verify the personal tax returns correspond to the owner(s) applying for certification.",
+    "comparisonSource": "Personal tax return; application owner list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Personal tax return does not correspond to the owner applying for certification."
+  },
+  {
+    "documentType": "PERSONAL_TAX_RETURN_1040",
+    "ruleId": "PTR-002",
+    "field": "Complete Form 1040",
+    "instruction": "Verify complete Form 1040 personal tax returns are submitted, including applicable attachments and schedules.",
+    "comparisonSource": "Personal tax return package",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Personal tax return is incomplete or missing required schedules."
+  },
+  {
+    "documentType": "PERSONAL_TAX_RETURN_1040",
+    "ruleId": "PTR-003",
+    "field": "Required Schedules",
+    "instruction": "Verify the first two pages of the return, Schedule 1, Schedule C if applicable, and Schedule E if applicable are included.",
+    "comparisonSource": "Personal tax return package",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Required personal tax return pages or schedules are missing."
+  },
+  {
+    "documentType": "CERTIFICATE_OF_FORMATION",
+    "ruleId": "COF-001",
+    "field": "State Filing Approval",
+    "instruction": "Verify the Certificate of Formation reflects approval and filing by the Secretary of State, as indicated in the top right corner or filing stamp/number.",
+    "comparisonSource": "Certificate of Formation",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Certificate of Formation does not show Secretary of State filing approval."
+  },
+  {
+    "documentType": "CERTIFICATE_OF_FORMATION",
+    "ruleId": "COF-002",
+    "field": "Business Name",
+    "instruction": "Confirm the business name matches the application and all supporting documentation.",
+    "comparisonSource": "Certificate of Formation; application; supporting docs",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Business name on Certificate of Formation does not match application/supporting documents."
+  },
+  {
+    "documentType": "CERTIFICATE_OF_FORMATION",
+    "ruleId": "COF-003",
+    "field": "Governing Authority",
+    "instruction": "Review Article 3 - Governing Authority to identify listed managers or governing members.",
+    "comparisonSource": "Certificate of Formation Article 3",
+    "expectedOutput": "Extract Value",
+    "severity": "Medium",
+    "failureMessage": "Governing authority could not be identified."
+  },
+  {
+    "documentType": "ARTICLES_OF_INCORPORATION",
+    "ruleId": "AOI-001",
+    "field": "State Filing Approval",
+    "instruction": "Verify Articles of Incorporation are officially stamped, sealed, or include a filing number confirming filing and approval, typically in the top right corner.",
+    "comparisonSource": "Articles of Incorporation",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Articles of Incorporation do not show filing approval, stamp, seal, or filing number."
+  },
+  {
+    "documentType": "ARTICLES_OF_INCORPORATION",
+    "ruleId": "AOI-002",
+    "field": "Business Name",
+    "instruction": "Confirm business name matches the application and supporting documents.",
+    "comparisonSource": "Articles of Incorporation; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Business name on Articles of Incorporation does not match application."
+  },
+  {
+    "documentType": "INITIAL_CONTRIBUTION_PROOF",
+    "ruleId": "ICP-001",
+    "field": "Contribution Timing",
+    "instruction": "Verify proof of initial contributions reflects the timeframe in which the business was established.",
+    "comparisonSource": "Bank statement or contribution proof; business start date",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Initial contribution documentation does not align with the business establishment timeframe."
+  },
+  {
+    "documentType": "INITIAL_CONTRIBUTION_PROOF",
+    "ruleId": "ICP-002",
+    "field": "Contribution Amount",
+    "instruction": "Verify the amount deposited or contributed matches the amount the vendor claims was invested in establishing the company.",
+    "comparisonSource": "Bank statement or contribution proof; application",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Initial contribution amount does not match the amount claimed by the vendor."
+  },
+  {
+    "documentType": "FEDERAL_EIN",
+    "ruleId": "EIN-001",
+    "field": "Business Name",
+    "instruction": "Verify business name is accurate and matches the application.",
+    "comparisonSource": "EIN documentation; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Business name on EIN documentation does not match application."
+  },
+  {
+    "documentType": "FEDERAL_EIN",
+    "ruleId": "EIN-002",
+    "field": "EIN Match",
+    "instruction": "Confirm EIN matches the number provided on the application and business tax returns.",
+    "comparisonSource": "EIN documentation; application; business tax returns",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "EIN does not match application or business tax returns."
+  },
+  {
+    "documentType": "LEASE_AGREEMENT",
+    "ruleId": "LEASE-001",
+    "field": "Lease Name",
+    "instruction": "Confirm the name listed on the lease agreement corresponds to the majority owner of the business or applicant firm as applicable.",
+    "comparisonSource": "Lease agreement; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Lease agreement name does not correspond to the majority owner or applicant firm."
+  },
+  {
+    "documentType": "LEASE_AGREEMENT",
+    "ruleId": "LEASE-002",
+    "field": "Property Address",
+    "instruction": "Verify property address matches the address provided on the application.",
+    "comparisonSource": "Lease agreement; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Lease property address does not match application."
+  },
+  {
+    "documentType": "LEASE_AGREEMENT",
+    "ruleId": "LEASE-003",
+    "field": "Lease Term",
+    "instruction": "Review lease term to ensure it is valid and current.",
+    "comparisonSource": "Lease agreement",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "High",
+    "failureMessage": "Lease agreement is expired or lease term cannot be verified."
+  },
+  {
+    "documentType": "LEASE_AGREEMENT",
+    "ruleId": "LEASE-004",
+    "field": "Signatures",
+    "instruction": "Confirm lease agreement has been signed by both landlord and tenant.",
+    "comparisonSource": "Lease agreement",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Lease agreement is missing landlord or tenant signature."
+  },
+  {
+    "documentType": "BANK_SIGNATURE_CARD",
+    "ruleId": "BSC-001",
+    "field": "Financial Institution",
+    "instruction": "Verify documentation includes the name of the financial institution.",
+    "comparisonSource": "Bank signature card or authorization/resolution",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "Medium",
+    "failureMessage": "Financial institution name is missing."
+  },
+  {
+    "documentType": "BANK_SIGNATURE_CARD",
+    "ruleId": "BSC-002",
+    "field": "Business Name",
+    "instruction": "Verify documentation includes the business name associated with the account.",
+    "comparisonSource": "Bank signature card or authorization/resolution; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Business name on bank documentation does not match application."
+  },
+  {
+    "documentType": "BANK_SIGNATURE_CARD",
+    "ruleId": "BSC-003",
+    "field": "EIN",
+    "instruction": "Verify documentation includes the corresponding EIN and matches the application.",
+    "comparisonSource": "Bank signature card or authorization/resolution; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "EIN is missing or does not match application."
+  },
+  {
+    "documentType": "BANK_SIGNATURE_CARD",
+    "ruleId": "BSC-004",
+    "field": "Authorized Users",
+    "instruction": "Confirm authorized account users are identified and majority owner(s) are listed.",
+    "comparisonSource": "Bank signature card or authorization/resolution; application owner list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Majority owner(s) are not listed as authorized account users."
+  },
+  {
+    "documentType": "BANK_SIGNATURE_CARD",
+    "ruleId": "BSC-005",
+    "field": "Signatures",
+    "instruction": "Confirm majority owner signature(s) are included on the documentation.",
+    "comparisonSource": "Bank signature card or authorization/resolution",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Majority owner signature(s) are missing from bank documentation."
+  },
+  {
+    "documentType": "OPERATING_AGREEMENT",
+    "ruleId": "OA-001",
+    "field": "Complete Agreement",
+    "instruction": "Verify the complete Operating Agreement has been submitted, including all pages and referenced exhibits or attachments.",
+    "comparisonSource": "Operating Agreement",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Operating Agreement is incomplete or missing referenced exhibits/attachments."
+  },
+  {
+    "documentType": "OPERATING_AGREEMENT",
+    "ruleId": "OA-002",
+    "field": "Business Name",
+    "instruction": "Verify the business name is accurately reflected throughout the Operating Agreement.",
+    "comparisonSource": "Operating Agreement; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Business name in Operating Agreement does not match application."
+  },
+  {
+    "documentType": "OPERATING_AGREEMENT",
+    "ruleId": "OA-003",
+    "field": "Ownership Interests",
+    "instruction": "Review agreement and exhibits to confirm ownership interests and ownership percentages.",
+    "comparisonSource": "Operating Agreement; exhibits; application",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Ownership interests or percentages do not match application."
+  },
+  {
+    "documentType": "OPERATING_AGREEMENT",
+    "ruleId": "OA-004",
+    "field": "Capital Contributions",
+    "instruction": "Review agreement and exhibits to confirm capital contributions.",
+    "comparisonSource": "Operating Agreement; exhibits; contribution proof",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Capital contributions are missing or inconsistent with supporting documentation."
+  },
+  {
+    "documentType": "STOCK_CERTIFICATE",
+    "ruleId": "SC-001",
+    "field": "Business Name",
+    "instruction": "Verify each Stock Certificate includes the correct business name.",
+    "comparisonSource": "Stock Certificates; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Stock Certificate business name does not match application."
+  },
+  {
+    "documentType": "STOCK_CERTIFICATE",
+    "ruleId": "SC-002",
+    "field": "Shareholder Identification",
+    "instruction": "Verify each Stock Certificate identifies the shareholder associated with the ownership interest.",
+    "comparisonSource": "Stock Certificates; application ownership list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Stock Certificate does not identify the shareholder."
+  },
+  {
+    "documentType": "STOCK_CERTIFICATE",
+    "ruleId": "SC-003",
+    "field": "All Shareholders",
+    "instruction": "Verify a Stock Certificate has been submitted for all shareholders of the company.",
+    "comparisonSource": "Stock Certificates; application ownership list",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Stock Certificates are missing for one or more shareholders."
+  },
+  {
+    "documentType": "STOCK_CERTIFICATE",
+    "ruleId": "SC-004",
+    "field": "Ownership Percentage or Shares",
+    "instruction": "Confirm certificate reflects shareholder ownership percentage or number of shares.",
+    "comparisonSource": "Stock Certificates",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Stock Certificate does not show ownership percentage or number of shares."
+  },
+  {
+    "documentType": "STOCK_TRANSFER_LEDGER",
+    "ruleId": "STL-001",
+    "field": "Completion",
+    "instruction": "Verify all applicable sections of the Stock Transfer Ledger have been completed accurately, regardless of whether stock transfers occurred.",
+    "comparisonSource": "Stock Transfer Ledger",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Stock Transfer Ledger is incomplete or inaccurate."
+  },
+  {
+    "documentType": "INVOICE",
+    "ruleId": "INV-001",
+    "field": "Invoice Currency",
+    "instruction": "Verify invoices are current by confirming invoice dates.",
+    "comparisonSource": "Invoices",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "Invoice is not current or invoice date is missing."
+  },
+  {
+    "documentType": "INVOICE",
+    "ruleId": "INV-002",
+    "field": "Invoice Amount",
+    "instruction": "Review invoiced amounts to ensure they correspond with associated proof of payment such as checks or bank statements.",
+    "comparisonSource": "Invoices; checks; bank statements",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Invoice amount does not match proof of payment."
+  },
+  {
+    "documentType": "CONTRACT",
+    "ruleId": "CON-001",
+    "field": "Scope-Based Documentation",
+    "instruction": "For contracts, determine required documentation based on the scope of work and services provided by the business.",
+    "comparisonSource": "Contracts; scope of work; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Required contract documentation cannot be determined from scope of work."
+  },
+  {
+    "documentType": "CONTRACT",
+    "ruleId": "CON-002",
+    "field": "Current and Executed",
+    "instruction": "Ensure submitted contracts are current, up to date, and properly executed with all required signatures where applicable.",
+    "comparisonSource": "Contracts",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Contract is outdated, incomplete, or missing required signatures."
+  },
+  {
+    "documentType": "BUSINESS_LICENSE",
+    "ruleId": "BL-001",
+    "field": "Active License",
+    "instruction": "Verify business license is active/current.",
+    "comparisonSource": "Business license",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "Business license is expired or status cannot be verified."
+  },
+  {
+    "documentType": "BUSINESS_LICENSE",
+    "ruleId": "BL-002",
+    "field": "Business Name",
+    "instruction": "Verify business license name matches applicant firm.",
+    "comparisonSource": "Business license; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Business license name does not match applicant firm."
+  },
+  {
+    "documentType": "INSURANCE",
+    "ruleId": "INS-001",
+    "field": "Active Policy",
+    "instruction": "Verify insurance policy/certificate is current and not expired.",
+    "comparisonSource": "Insurance certificate/policy",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "Insurance policy is expired or effective dates cannot be verified."
+  },
+  {
+    "documentType": "INSURANCE",
+    "ruleId": "INS-002",
+    "field": "Business Listed",
+    "instruction": "Verify applicant firm is listed on the insurance document.",
+    "comparisonSource": "Insurance certificate/policy; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Applicant firm is not listed on insurance document."
+  },
+  {
+    "documentType": "TWC_QUARTERLY_REPORT",
+    "ruleId": "TWC-001",
+    "field": "Business Name",
+    "instruction": "Verify TWC report business name matches applicant firm.",
+    "comparisonSource": "TWC quarterly report; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "TWC report business name does not match applicant firm."
+  },
+  {
+    "documentType": "TWC_QUARTERLY_REPORT",
+    "ruleId": "TWC-002",
+    "field": "Employee Information",
+    "instruction": "Verify employee information is consistent with application disclosures where applicable.",
+    "comparisonSource": "TWC quarterly report; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "TWC employee information is inconsistent with application."
+  },
+  {
+    "documentType": "DBA_DOCUMENT",
+    "ruleId": "DBA-001",
+    "field": "DBA Match",
+    "instruction": "Verify DBA document or Assumed Name Certificate matches the DBA listed in the application.",
+    "comparisonSource": "DBA document; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "DBA document does not match application."
+  },
+  {
+    "documentType": "ASSUMED_NAME_CERTIFICATE",
+    "ruleId": "ANC-001",
+    "field": "Assumed Name Match",
+    "instruction": "Verify Assumed Name Certificate matches the assumed name/DBA listed in the application.",
+    "comparisonSource": "Assumed Name Certificate; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Assumed Name Certificate does not match application."
+  },
+  {
+    "documentType": "FRANCHISE_AGREEMENT",
+    "ruleId": "FA-001",
+    "field": "Ownership and Control",
+    "instruction": "Review franchise agreement to verify ownership/control and identify restrictions affecting the applicant firm's independence.",
+    "comparisonSource": "Franchise agreement; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Franchise agreement indicates ownership/control concerns or could not be reviewed."
+  },
+  {
+    "documentType": "PROFESSIONAL_LICENSE",
+    "ruleId": "PL-001",
+    "field": "Active License",
+    "instruction": "Verify professional license is active/current.",
+    "comparisonSource": "Professional license",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "Professional license is expired or status cannot be verified."
+  },
+  {
+    "documentType": "PROFESSIONAL_LICENSE",
+    "ruleId": "PL-002",
+    "field": "Name Match",
+    "instruction": "Verify professional license name matches the applicant, owner, or business as applicable.",
+    "comparisonSource": "Professional license; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Professional license name does not match applicant, owner, or business."
+  },
+  {
+    "documentType": "DISABILITY_VERIFICATION",
+    "ruleId": "DIS-001",
+    "field": "Disability Status",
+    "instruction": "Verify disability verification documentation supports claimed disability status where applicable.",
+    "comparisonSource": "Disability verification; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Disability status could not be verified."
+  },
+  {
+    "documentType": "DISABILITY_DOCUMENTATION",
+    "ruleId": "DISDOC-001",
+    "field": "Disability Status",
+    "instruction": "Verify disability documentation supports claimed disability status where applicable.",
+    "comparisonSource": "Disability documentation; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Disability documentation does not support claimed status."
+  },
+  {
+    "documentType": "DD214_MILITARY_DISCHARGE",
+    "ruleId": "DD214-001",
+    "field": "Veteran Status",
+    "instruction": "Verify DD214 supports veteran status claimed in the application.",
+    "comparisonSource": "DD214; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "DD214 does not verify veteran status."
+  },
+  {
+    "documentType": "DD214_MILITARY_DISCHARGE",
+    "ruleId": "DD214-002",
+    "field": "Character of Service",
+    "instruction": "Verify discharge/character of service meets applicable program requirements.",
+    "comparisonSource": "DD214",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "DD214 character of service does not meet requirements or cannot be verified."
+  },
+  {
+    "documentType": "MILITARY_DOCUMENTATION",
+    "ruleId": "MIL-001",
+    "field": "Veteran Status",
+    "instruction": "Verify military documentation supports veteran status claimed in the application.",
+    "comparisonSource": "Military documentation; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Military documentation does not verify veteran status."
+  },
+  {
+    "documentType": "PROOF_OF_CITIZENSHIP",
+    "ruleId": "POC-001",
+    "field": "Citizenship Proof",
+    "instruction": "Verify citizenship documentation establishes citizenship status.",
+    "comparisonSource": "Citizenship proof; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Citizenship status could not be established."
+  },
+  {
+    "documentType": "PROOF_OF_ETHNICITY",
+    "ruleId": "POE-001",
+    "field": "Ethnicity Proof",
+    "instruction": "Verify documentation supports claimed ethnicity if applicable to the certification application.",
+    "comparisonSource": "Proof of ethnicity; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Proof of ethnicity does not support the claim or cannot be verified."
+  },
+  {
+    "documentType": "STATE_ID",
+    "ruleId": "SID-001",
+    "field": "Identity Match",
+    "instruction": "Verify State ID name matches the application owner name.",
+    "comparisonSource": "State ID; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "State ID name does not match application."
+  },
+  {
+    "documentType": "STATE_ID",
+    "ruleId": "SID-002",
+    "field": "Expiration Date",
+    "instruction": "Verify State ID is current and has not expired.",
+    "comparisonSource": "State ID",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "State ID is expired or expiration date cannot be verified."
+  },
+  {
+    "documentType": "DRIVERS_LICENSE",
+    "ruleId": "DL-001",
+    "field": "Identity Match",
+    "instruction": "Verify driver's license name matches the application owner name.",
+    "comparisonSource": "Driver's license; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Driver's license name does not match application."
+  },
+  {
+    "documentType": "DRIVERS_LICENSE",
+    "ruleId": "DL-002",
+    "field": "Expiration Date",
+    "instruction": "Verify driver's license is current and has not expired.",
+    "comparisonSource": "Driver's license",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "Driver's license is expired or expiration date cannot be verified."
+  },
+  {
+    "documentType": "SSN_CARD",
+    "ruleId": "SSN-001",
+    "field": "Name Match",
+    "instruction": "Verify Social Security card name matches the application owner name.",
+    "comparisonSource": "SSN card; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Social Security card name does not match application."
+  },
+  {
+    "documentType": "SSN_CARD",
+    "ruleId": "SSN-002",
+    "field": "Legibility",
+    "instruction": "Verify Social Security number is legible where permitted by internal policy.",
+    "comparisonSource": "SSN card",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Social Security card is illegible or required number cannot be verified."
+  },
+  {
+    "documentType": "TRIBAL_CARD",
+    "ruleId": "TRIBAL-001",
+    "field": "Identity Match",
+    "instruction": "Verify Tribal Card name matches the application owner name.",
+    "comparisonSource": "Tribal Card; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Tribal Card name does not match application."
+  },
+  {
+    "documentType": "TRIBAL_CARD",
+    "ruleId": "TRIBAL-002",
+    "field": "Eligibility Support",
+    "instruction": "Verify Tribal Card supports claimed eligibility if applicable.",
+    "comparisonSource": "Tribal Card; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Tribal Card does not support claimed eligibility."
+  },
+  {
+    "documentType": "RELIGIOUS_RECORD",
+    "ruleId": "RR-001",
+    "field": "Identity Support",
+    "instruction": "Verify religious record supports identity or eligibility requirement where applicable.",
+    "comparisonSource": "Religious record; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Low",
+    "failureMessage": "Religious record does not support identity or eligibility requirement."
+  },
+  {
+    "documentType": "OTHER_CITIZENSHIP_PROOF",
+    "ruleId": "OCP-001",
+    "field": "Citizenship Support",
+    "instruction": "Verify other citizenship proof establishes citizenship status and matches applicant identity.",
+    "comparisonSource": "Other citizenship proof; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Citizenship proof does not establish citizenship status or identity."
+  },
+  {
+    "documentType": "TAX_RETURN",
+    "ruleId": "TAX-001",
+    "field": "Return Consistency",
+    "instruction": "Verify tax return information is consistent with the application and submitted supporting documents.",
+    "comparisonSource": "Tax return; application; supporting documents",
+    "expectedOutput": "Pass/Fail",
+    "severity": "Medium",
+    "failureMessage": "Tax return information is inconsistent with application or supporting documents."
+  },
+  {
+    "documentType": "PERSONAL_TAX_RETURN",
+    "ruleId": "PTAX-001",
+    "field": "Owner Match",
+    "instruction": "Verify personal tax returns correspond to the owner(s) applying for certification.",
+    "comparisonSource": "Personal tax returns; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Personal tax return does not correspond to owner applying for certification."
+  },
+  {
+    "documentType": "BANK_STATEMENT",
+    "ruleId": "BS-001",
+    "field": "Account Holder",
+    "instruction": "Verify bank statement account holder matches applicant firm or owner as applicable.",
+    "comparisonSource": "Bank statement; application",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Bank statement account holder does not match applicant firm or owner."
+  },
+  {
+    "documentType": "BANK_STATEMENT",
+    "ruleId": "BS-002",
+    "field": "Date Alignment",
+    "instruction": "Verify bank statement dates align with the validation purpose, such as initial contribution timing or current account verification.",
+    "comparisonSource": "Bank statement; application; contribution claim",
+    "expectedOutput": "Pass/Fail + Extracted Date",
+    "severity": "Medium",
+    "failureMessage": "Bank statement date does not align with validation purpose."
+  },
+  {
+    "documentType": "PARTNERSHIP_AGREEMENT",
+    "ruleId": "PA-001",
+    "field": "Complete Agreement",
+    "instruction": "Verify complete Partnership Agreement has been submitted.",
+    "comparisonSource": "Partnership Agreement",
+    "expectedOutput": "Pass/Fail",
+    "severity": "High",
+    "failureMessage": "Partnership Agreement is incomplete."
+  },
+  {
+    "documentType": "PARTNERSHIP_AGREEMENT",
+    "ruleId": "PA-002",
+    "field": "Ownership and Control",
+    "instruction": "Verify ownership percentages and control provisions match the application.",
+    "comparisonSource": "Partnership Agreement; application",
+    "expectedOutput": "Pass/Fail + Extracted Value",
+    "severity": "High",
+    "failureMessage": "Partnership ownership/control does not match application."
+  }
+]
