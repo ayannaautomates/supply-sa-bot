@@ -6,17 +6,21 @@ conversation at this scale).
 
 ## How it works
 
-- **Checklist logic is deterministic** (`checklist-config.js`) — plain
-  code, not the LLM. The bot can't improvise what's required.
+- **Guided readiness check** (`readiness-flow-config.js`) — a branching, deterministic flow ported from the earlier Voiceflow build and enriched with real specialist guidance from the Certification Navigation Process SOP. It asks profile questions (new vs. renewal, certification types, entity type, industry, jurisdiction, etc.), then shows only the document groups that actually apply — grouped into ~7-11 screens instead of one screen per document — and ends with a tailored ready/missing summary including the specific guidance a specialist would give for each missing item. Renewals short-circuit into a condensed reminder instead of the full walkthrough, per the SOP. None of this branching logic touches the LLM — it's all plain code, so the bot can't improvise document requirements.
+- **Checklist logic is deterministic** (`checklist-config.js`) — the original simple checklist tiles, kept for the `/api/readiness-report` endpoint.
 - **Document knowledge is deterministic too** (`document-knowledge.js` +
   `validation-rules-data.json`) — built from Supply SA's real
   certification document validation rules (93 rules across 46 document
   types). When a vendor asks "why do you need my lease agreement?" or
   "what counts as a valid Schedule K-1?", the bot pulls the real rule
   text into its context instead of guessing.
-- **Claude (Haiku 4.5)** handles the conversational layer: explaining
+- **FAQ knowledge base** (`faq-knowledge.js`) — built from the real Supply SA FAQ page (https://supply-sa.org/faq/), 21 entries covering fees, timelines, renewal rules, NAICS codes, and more. Surfaced as grounding context when a vendor's question matches.
+- **Persona, tone, and behavior rules** (`persona-config.js`) — the bot's voice, goals, and guardrails (no eligibility determinations, no accepting sensitive data in chat, staff handoff triggers) as a standalone editable file. Also enforces plain-text output (no Markdown) since the widget renders plain text.
+- **Claude (Haiku 4.5)** handles the conversational layer for free-text questions: explaining
   status, answering general questions, explaining document requirements
   in plain language.
+- **Greeting + 3 quick-reply buttons** (`/api/greeting`) — "Check certification readiness," "Ask a question," and "See upcoming events," matching the Instructions' Starting Message spec. Each button routes to its own flow.
+- **Events** (`/api/events`) — rather than hardcoding event dates (which go stale fast), this links out live to https://supply-sa.org/events/.
 - **Handoff** (Supply SA support email + link to the Meet the Team page)
   surfaces automatically when:
   - the vendor uses a "talk to a human" type phrase, OR
